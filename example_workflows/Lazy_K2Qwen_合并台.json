@@ -1,0 +1,224 @@
+{
+  "last_node_id": 12,
+  "last_link_id": 12,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "UNETLoader",
+      "pos": [40, 40],
+      "size": [340, 82],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "outputs": [{"name": "MODEL", "type": "MODEL", "links": [1], "slot_index": 0}],
+      "properties": {"Node name for S&R": "UNETLoader"},
+      "widgets_values": ["Krea2\\krea2_turbo_int8_convrot.safetensors", "default"],
+      "title": "Krea2 模型"
+    },
+    {
+      "id": 2,
+      "type": "CLIPLoader",
+      "pos": [40, 160],
+      "size": [340, 106],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "outputs": [{"name": "CLIP", "type": "CLIP", "links": [3], "slot_index": 0}],
+      "properties": {"Node name for S&R": "CLIPLoader"},
+      "widgets_values": ["qwen3vl_4b_fp8_scaled.safetensors", "krea2", "default"],
+      "title": "Krea2 文本编码"
+    },
+    {
+      "id": 3,
+      "type": "VAELoader",
+      "pos": [40, 300],
+      "size": [340, 58],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "outputs": [{"name": "VAE", "type": "VAE", "links": [4], "slot_index": 0}],
+      "properties": {"Node name for S&R": "VAELoader"},
+      "widgets_values": ["qwen_image_vae.safetensors"],
+      "title": "Krea2 VAE"
+    },
+    {
+      "id": 4,
+      "type": "UNETLoader",
+      "pos": [40, 420],
+      "size": [340, 82],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "outputs": [{"name": "MODEL", "type": "MODEL", "links": [5], "slot_index": 0}],
+      "properties": {"Node name for S&R": "UNETLoader"},
+      "widgets_values": ["qwen_image_2.1_int8_convrot.safetensors", "default"],
+      "title": "Qwen2.1 模型"
+    },
+    {
+      "id": 5,
+      "type": "CLIPLoader",
+      "pos": [40, 540],
+      "size": [340, 106],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "outputs": [{"name": "CLIP", "type": "CLIP", "links": [6], "slot_index": 0}],
+      "properties": {"Node name for S&R": "CLIPLoader"},
+      "widgets_values": ["qwen3vl_8b_int8_convrot.safetensors", "qwen_image", "default"],
+      "title": "Qwen2.1 文本编码"
+    },
+    {
+      "id": 6,
+      "type": "VAELoader",
+      "pos": [40, 680],
+      "size": [340, 58],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "outputs": [{"name": "VAE", "type": "VAE", "links": [7], "slot_index": 0}],
+      "properties": {"Node name for S&R": "VAELoader"},
+      "widgets_values": ["qwen_image_2.1_vae_bf16.safetensors"],
+      "title": "Qwen2.1 VAE"
+    },
+    {
+      "id": 7,
+      "type": "LazyKreaLoraStack",
+      "pos": [420, 40],
+      "size": [360, 260],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [{"name": "模型", "type": "MODEL", "link": 1}],
+      "outputs": [
+        {"name": "模型", "type": "MODEL", "links": [2], "slot_index": 0},
+        {"name": "底模", "type": "MODEL", "links": [9], "slot_index": 1},
+        {"name": "LoRA配置", "type": "KREA_LORA_STACK", "links": [10], "slot_index": 2}
+      ],
+      "properties": {"Node name for S&R": "LazyKreaLoraStack"},
+      "widgets_values": [1, true, "none", 1.0],
+      "title": "Lazy Krea 多LoRA"
+    },
+    {
+      "id": 12,
+      "type": "LazyPromptLine",
+      "pos": [420, 340],
+      "size": [420, 280],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {"name": "字符串", "type": "STRING", "links": [12], "slot_index": 0},
+        {"name": "COMBO", "type": "COMBO", "links": null, "slot_index": 1}
+      ],
+      "properties": {"Node name for S&R": "LazyPromptLine"},
+      "widgets_values": ["", 0, 1000, false],
+      "title": "Lazy 提示词",
+      "color": "#008181",
+      "bgcolor": "#1c3330"
+    },
+    {
+      "id": 8,
+      "type": "LazyMergeWorkbench",
+      "pos": [900, 40],
+      "size": [480, 760],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {"name": "图像1", "type": "IMAGE", "link": null},
+        {"name": "图像2", "type": "IMAGE", "link": null},
+        {"name": "图像3", "type": "IMAGE", "link": null},
+        {"name": "图像4", "type": "IMAGE", "link": null},
+        {"name": "图像5", "type": "IMAGE", "link": null},
+        {"name": "图像6", "type": "IMAGE", "link": null},
+        {"name": "图像7", "type": "IMAGE", "link": null},
+        {"name": "图像8", "type": "IMAGE", "link": null},
+        {"name": "图像9", "type": "IMAGE", "link": null},
+        {"name": "图像10", "type": "IMAGE", "link": null},
+        {"name": "遮罩1", "type": "MASK", "link": null},
+        {"name": "提示词", "type": "STRING", "link": 12}
+      ],
+      "outputs": [
+        {"name": "工作台包", "type": "MERGE_PACK", "links": [8], "slot_index": 0},
+        {"name": "正向提示", "type": "STRING", "links": null, "slot_index": 1},
+        {"name": "模式", "type": "STRING", "links": null, "slot_index": 2},
+        {"name": "运行信息", "type": "STRING", "links": null, "slot_index": 3}
+      ],
+      "properties": {"Node name for S&R": "LazyMergeWorkbench"},
+      "widgets_values": ["none", "none", "[]", "", 0, 1000, false],
+      "title": "Lazy 合并台"
+    },
+    {
+      "id": 9,
+      "type": "LazyMergeGenerate",
+      "pos": [1460, 40],
+      "size": [380, 640],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {"name": "Krea模型", "type": "MODEL", "link": 2},
+        {"name": "Krea文本编码", "type": "CLIP", "link": 3},
+        {"name": "KreaVAE", "type": "VAE", "link": 4},
+        {"name": "Qwen模型", "type": "MODEL", "link": 5},
+        {"name": "Qwen文本编码", "type": "CLIP", "link": 6},
+        {"name": "QwenVAE", "type": "VAE", "link": 7},
+        {"name": "工作台包", "type": "MERGE_PACK", "link": 8},
+        {"name": "Krea底模", "type": "MODEL", "link": 9},
+        {"name": "LoRA配置", "type": "KREA_LORA_STACK", "link": 10}
+      ],
+      "outputs": [
+        {"name": "图像", "type": "IMAGE", "links": [11], "slot_index": 0},
+        {"name": "运行信息", "type": "STRING", "links": null, "slot_index": 1}
+      ],
+      "properties": {"Node name for S&R": "LazyMergeGenerate"},
+      "widgets_values": [0, 8, 1.0, "euler", "simple", 1024, 1024, 25, 1.0, "euler", "simple", "none", 1.0, 2048, false, "auto", "default", false, true],
+      "title": "Lazy 合并生成"
+    },
+    {
+      "id": 10,
+      "type": "SaveImage",
+      "pos": [1900, 40],
+      "size": [280, 120],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [{"name": "images", "type": "IMAGE", "link": 11}],
+      "properties": {"Node name for S&R": "SaveImage"},
+      "widgets_values": ["LazyMerge"]
+    },
+    {
+      "id": 11,
+      "type": "Note",
+      "pos": [1460, 720],
+      "size": [420, 160],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "properties": {
+        "text": "文生图、四视图 → Krea2\n编辑、多图、遮罩、扩图 → Qwen2.1\n\n工作台提示词一行一段，几行出几张\n图像1–图像10 最多 10 张"
+      }
+    }
+  ],
+  "links": [
+    [1, 1, 0, 7, 0, "MODEL"],
+    [2, 7, 0, 9, 0, "MODEL"],
+    [3, 2, 0, 9, 1, "CLIP"],
+    [4, 3, 0, 9, 2, "VAE"],
+    [5, 4, 0, 9, 3, "MODEL"],
+    [6, 5, 0, 9, 4, "CLIP"],
+    [7, 6, 0, 9, 5, "VAE"],
+    [8, 8, 0, 9, 6, "MERGE_PACK"],
+    [9, 7, 1, 9, 7, "MODEL"],
+    [10, 7, 2, 9, 8, "KREA_LORA_STACK"],
+    [11, 9, 0, 10, 0, "IMAGE"],
+    [12, 12, 0, 8, 11, "STRING"]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "info": "K2 与 Qwen2.1 合并台。编辑最多接 10 张图。提示词使用内置 Lazy 提示词。"
+  },
+  "version": 0.4
+}

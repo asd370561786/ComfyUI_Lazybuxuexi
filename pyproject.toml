@@ -1,0 +1,14 @@
+[project]
+name = "ceshi-wan-remix-director"
+description = "Wan2.2 Remix Director: Yusu/WhatDreamsCost-style timeline director desk for Wan2.2 Remix NSFW I2V high/low lighting MoE models."
+version = "1.0.0"
+license = { file = "LICENSE" }
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/local/ceshi-wan-remix-director"
+
+[tool.comfy]
+PublisherId = "local"
+DisplayName = "Wan Remix Director (ceshi)"
+Icon = ""
